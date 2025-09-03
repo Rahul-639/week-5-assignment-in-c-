@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class MyStack {
+    int arr[101];  
+    int top;      
+    
+public:
+    MyStack() {
+        top = -1; 
+    }
+    void push(int x) {
+        if (top < 100) {
+            arr[++top] = x;
+        }
+    }
+    int pop() {
+        if (top == -1) 
+            return -1;
+        return arr[top--];
+    }
+};
+
+int main() {
+    vector<int> oper = {1, 2, 1, 3, 2, 1, 4, 2};
+    MyStack st;
+    vector<int> result;
+    for (int i = 0; i < oper.size(); i++) {
+        if (oper[i] == 1) { 
+            st.push(oper[i+1]);
+            i++;
+        } else if (oper[i] == 2) { 
+            result.push_back(st.pop());
+        }
+    for (int x : result) cout << x << " ";
+    cout << endl;
+    return 0;
+}

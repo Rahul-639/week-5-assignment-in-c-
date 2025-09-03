@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+using namespace std;
+class Solution {
+public:
+    int evalRPN(vector<string>& arr) {
+        stack<long long> st;
+
+        for (string& token : arr) {
+            if (token == "+" || token == "-" || token == "*" || token == "/") {
+                long long b = st.top(); st.pop();
+                long long a = st.top(); st.pop();
+                long long res = 0;
+                if (token == "+") res = a + b;
+                else if (token == "-") res = a - b;
+                else if (token == "*") res = a * b;
+                else if (token == "/") res = a / b;
+                st.push(res);
+            } 
+            else {
+                st.push(stoi(token));
+            }
+        }
+
+        return (int)st.top();
+    }
+};
+int main() {
+    Solution sol;
+    vector<string> arr1 = {"2", "3", "1", "*", "+", "9", "-"};
+    cout << sol.evalRPN(arr1) << endl;  // Output: -4
+    vector<string> arr2 = {"100", "200", "+", "2", "/", "5", "*", "7", "+"};
+    cout << sol.evalRPN(arr2) << endl; 
+    return 0;
+}

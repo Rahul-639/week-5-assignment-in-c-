@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    int prec(char c) {
+        if (c == '^') return 3;
+        if (c == '*' || c == '/') return 2;
+        if (c == '+' || c == '-') return 1;
+        return -1;
+    }
+    string infixToPostfix(string& s) {
+        string result;
+        stack<char> st;
+        for (char c : s) {
+            if (isalnum(c)) {
+                result += c;
+            }
+            else if (c == '(') {
+                st.push(c);
+            }
+            else if (c == ')') {
+                while (!st.empty() && st.top() != '(') {
+                    result += st.top();
+                    st.pop();
+                }
+                if (!st.empty()) st.pop(); 
+            }
+            else {
+                while (!st.empty() && prec(st.top()) >= prec(c)) {
+                    result += st.top();
+                    st.pop();
+                }
+                st.push(c);
+            }
+        }
+        while (!st.empty()) {
+            result += st.top();
+            st.pop();
+        }
+
+        return result;
+    }
+};
+int main() {
+    Solution sol;
+    string s1 = "a+b*(c^d-e)^(f+g*h)-i";
+    cout << sol.infixToPostfix(s1) << endl;
+    string s2 = "A*(+C)/D";
+    cout << sol.infixToPostfix(s2) << endl;
+    string s3 = "(a+b)*(c+d)";
+    cout << sol.infixToPostfix(s3) << endl;
+
+    return 0;
+}
